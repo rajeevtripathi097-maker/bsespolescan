@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#082a58">
+<link rel="manifest" href="manifest.webmanifest">
+<title>BSES PoleSafe Mobile Demo</title>
+<style>
+:root{--navy:#082a58;--blue:#0b5bd3;--red:#e31937;--green:#20a464;--amber:#f3aa18;--ink:#172033;--muted:#6b7280;--line:#dbe4ef;--bg:#eef4fb}
+*{box-sizing:border-box}html,body{margin:0;background:#dfe9f5;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink)}
+button,input,textarea,select{font:inherit}.phone{width:min(430px,100vw);min-height:100vh;margin:auto;background:#f5f8fc;box-shadow:0 0 40px #0002;position:relative}
+.appbar{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 14px 12px;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:10px}.logo{font-size:24px;font-weight:950}.demo{font-size:10px;background:#fff;color:var(--red);padding:4px 7px;border-radius:999px;font-weight:900}.appbar small{display:block;opacity:.8}.iconbtn{border:0;background:#ffffff18;color:#fff;width:38px;height:38px;border-radius:10px;font-size:18px}
+.content{padding:14px 14px 94px}.hero{background:linear-gradient(135deg,var(--navy),#0b5bd3);color:#fff;padding:16px;border-radius:18px;margin-bottom:12px}.hero h2{margin:0 0 5px;font-size:22px}.hero p{margin:0;opacity:.9;font-size:13px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:0 7px 18px rgba(33,60,95,.06);margin-bottom:10px}.section-title{font-size:12px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.quickgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.action{border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px;text-align:left;min-height:86px}.action b{display:block;color:var(--navy);margin-top:8px}.action span{font-size:12px;color:var(--muted)}
+.circle{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:900}.r{background:var(--red)}.a{background:var(--amber)}.b{background:var(--blue)}.g{background:var(--green)}
+.btn{border:0;border-radius:12px;padding:11px 13px;font-weight:850}.btn.primary{background:var(--blue);color:#fff}.btn.green{background:var(--green);color:#fff}.btn.amber{background:var(--amber);color:#fff}.btn.ghost{background:#edf3fa;color:var(--navy)}.btn.full{width:100%}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}.field label{font-size:12px;font-weight:850;color:var(--navy)}.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff}.field textarea{min-height:78px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.muted{color:var(--muted)}.tiny{font-size:11px;color:var(--muted)}
+.pill{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:850}.open{background:#fff0f0;color:#b42318}.progress{background:#edf4ff;color:#1849a9}.closed{background:#ecfdf3;color:#067647}
+.lead{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fff;margin-bottom:9px}.lead-top{display:flex;justify-content:space-between;gap:8px}.lead b{color:var(--navy)}.meta{font-size:11px;color:var(--muted);margin-top:6px}.lead-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.lead-actions .btn{padding:8px 10px;font-size:12px}
+.map{height:210px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(25deg,transparent 48%,#d6dee7 49% 51%,transparent 52%),linear-gradient(-18deg,transparent 48%,#d6dee7 49% 51%,transparent 52%),linear-gradient(90deg,#f7f4ec,#eef6ed);position:relative;overflow:hidden}.map:before{content:"DEMO MAP";position:absolute;left:10px;top:8px;font-size:10px;font-weight:900;color:#667085}.pin{position:absolute;width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--red);box-shadow:0 3px 7px #0003}.pin:after{content:"";position:absolute;left:7px;top:7px;width:8px;height:8px;border-radius:50%;background:#fff}.pin.team{background:#6d46ff}.pin.close{background:var(--green)}
+.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(430px,100vw);background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:7px 6px calc(7px + env(safe-area-inset-bottom));z-index:30}
+.nav{border:0;background:transparent;color:var(--muted);padding:7px 2px;font-size:11px}.nav b{display:block;font-size:18px}.nav.active{color:var(--blue);font-weight:850}.screen{display:none}.screen.active{display:block}.banner{padding:10px;border-radius:12px;background:#fff8e9;border:1px solid #ffe1a6;font-size:12px}
+.timeline{margin:7px 0 0;padding-left:18px;font-size:12px}.timeline li{margin:4px 0}.evidence-chip{padding:7px 9px;border-radius:10px;background:#f3f6fa;border:1px solid var(--line);font-size:11px}.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;max-width:370px;background:#111827;color:#fff;padding:10px 12px;border-radius:11px;font-size:12px;z-index:60;display:none}.hidden{display:none!important}
+@media(min-width:431px){body{padding:16px 0}.phone{min-height:900px;border-radius:26px;overflow:hidden}.bottom{bottom:16px;border-radius:0 0 26px 26px}}
+</style>
+</head>
+<body>
+<div class="phone">
+<header class="appbar"><div class="brand"><div class="logo">BSES</div><div><b>PoleSafe</b><small>Mobile Field & Reporting Demo</small></div><span class="demo">DEMO</span></div><button class="iconbtn" onclick="installApp()">＋</button></header>
+<main class="content">
+<section id="home" class="screen active">
+<div class="hero"><h2>One app. Complete lead lifecycle.</h2><p>Report, assign, navigate, ATR and geo-verified closure from mobile.</p></div>
+<div class="card"><div class="section-title">Quick Actions</div><div class="quickgrid">
+<button class="action" onclick="go('report')"><span class="circle r">QR</span><b>Report Complaint</b><span>Scan pole / create lead</span></button>
+<button class="action" onclick="go('leads')"><span class="circle b">L</span><b>Assigned Leads</b><span>Open and field action</span></button>
+<button class="action" onclick="go('atr')"><span class="circle a">A</span><b>ATR</b><span>Action taken & closure</span></button>
+<button class="action" onclick="go('map')"><span class="circle g">⌖</span><b>Live Map</b><span>Complaint / team / closure</span></button>
+</div></div>
+<div class="card"><div class="section-title">Today</div><div class="row"><div><div class="tiny">Open Leads</div><div style="font-size:28px;font-weight:950;color:var(--navy)" id="hOpen">0</div></div><div><div class="tiny">Closed Leads</div><div style="font-size:28px;font-weight:950;color:var(--green)" id="hClosed">0</div></div></div></div>
+<div class="banner">Demo runs locally. GPS uses browser location. Real WhatsApp/API can later connect through the secure backend.</div>
+</section>
+
+<section id="report" class="screen">
+<div class="card"><div class="section-title">1. Pole Scan / Identification</div>
+<div class="field"><label>Pole ID</label><input id="poleId" value="BRPL-MDK-P001245"></div>
+<div class="row"><div class="field"><label>Area</label><input id="area" value="Kamruddin Nagar, Mundka"></div><div class="field"><label>DT</label><input id="dt" value="MDK-DT018"></div></div>
+<button class="btn ghost full" onclick="simulateScan()">📷 Simulate QR Scan</button></div>
+
+<div class="card"><div class="section-title">2. Complaint Type</div>
+<div class="field"><select id="type"><option value="">Select complaint type</option><option>Direct Theft</option><option>Illegal Hooking</option><option>Meter Tampering</option><option>Pole Fire / Sparking</option><option>Exposed or Damaged Wire</option><option>Unsafe Service Cable</option><option>Other Hazards</option><option>Current Complaint / No Supply</option></select></div>
+<div class="row"><button class="btn ghost" onclick="captureComplaintLocation()">📍 Capture Location</button><label class="btn ghost" style="text-align:center">📷 Photo / Video<input id="evidence" type="file" accept="image/*,video/*" class="hidden" onchange="evidenceChanged()"></label></div>
+<div class="tiny" id="locText" style="margin-top:8px">Location not captured.</div><div class="tiny" id="evidenceText">No evidence attached.</div>
+<div class="field" style="margin-top:9px"><label>Note</label><textarea id="note" placeholder="Optional details"></textarea></div>
+<button class="btn green full" onclick="submitLead()">Submit Complaint</button></div>
+</section>
+
+<section id="leads" class="screen"><div class="card"><div class="section-title">Assigned Leads</div><div id="leadList"></div></div></section>
+
+<section id="atr" class="screen">
+<div id="atrEmpty" class="card"><span class="muted">Select a lead from Assigned Leads to open ATR.</span></div>
+<div id="atrPanel" class="hidden">
+<div class="card"><div class="section-title">Lead Information</div><div id="atrInfo"></div><div class="lead-actions"><button class="btn ghost" onclick="openMapRoute('map')">🗺 Map</button><button class="btn ghost" onclick="openMapRoute('car')">🚗 Car</button><button class="btn ghost" onclick="openMapRoute('bike')">🏍 Bike</button></div></div>
+<div class="card"><div class="section-title">ATR & Closure</div>
+<div class="field"><label>ATR By</label><input id="atrBy" placeholder="Team Leader / Officer"></div>
+<div class="field"><label>Site Finding</label><select id="siteFinding"><option value="">Select finding</option><option>Complaint Confirmed</option><option>Partially Confirmed</option><option>Not Found</option><option>Already Rectified</option><option>Invalid / False Lead</option></select></div>
+<div class="field"><label>Action Taken</label><input id="actionTaken" placeholder="e.g. Hooking removed / wire rectified"></div>
+<div class="field"><label>Closure Action Group</label><input id="closureGroup" readonly></div>
+<div class="field"><label>ATR Remarks</label><textarea id="atrRemarks" placeholder="Final remarks"></textarea></div>
+<div class="row"><button class="btn primary" onclick="captureTeamLocation()">📍 Team GPS</button><button class="btn amber" onclick="saveAtr()">Save ATR</button></div>
+<div class="tiny" id="teamGpsText" style="margin:8px 0">Team GPS not captured.</div><button class="btn green full" onclick="closeLead()">✅ Close Lead with Fresh GPS</button>
+</div>
+<div class="card"><div class="section-title">Action Timeline</div><ul class="timeline" id="timeline"></ul></div>
+</div></section>
+
+<section id="map" class="screen"><div class="card"><div class="section-title">Lead Location Map</div><div id="mapBox" class="map"></div><div class="tiny" id="mapDetails" style="margin-top:8px">Select a lead to view map details.</div></div></section>
+</main>
+<nav class="bottom">
+<button class="nav active" data-screen="home" onclick="go('home')"><b>⌂</b>Home</button>
+<button class="nav" data-screen="report" onclick="go('report')"><b>＋</b>Report</button>
+<button class="nav" data-screen="leads" onclick="go('leads')"><b>☷</b>Leads</button>
+<button class="nav" data-screen="atr" onclick="go('atr')"><b>✓</b>ATR</button>
+</nav>
+<div id="toast" class="toast"></div>
+</div>
+<script>
+let deferredPrompt=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e});
+async function installApp(){if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}else toast('Browser menu → Add to Home Screen / Install App')}
+const $=id=>document.getElementById(id);let complaintLat='',complaintLng='',selectedId=null;
+function toast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
+function now(){return new Date().toLocaleString()}function getLeads(){return JSON.parse(localStorage.getItem('polesafe_mobile_leads')||'[]')}function saveLeads(x){localStorage.setItem('polesafe_mobile_leads',JSON.stringify(x))}
+function mapping(type){if(['Direct Theft','Illegal Hooking','Meter Tampering'].includes(type))return{department:'Enforcement / Surveillance',closureGroup:'Enforcement'};if(['Pole Fire / Sparking','Exposed or Damaged Wire','Unsafe Service Cable','Other Hazards'].includes(type))return{department:'O&M',closureGroup:'O&M'};return{department:'O&M / Supply Restoration',closureGroup:'O&M'}}
+function go(id){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.screen===id));if(id==='leads')renderLeads();if(id==='map')renderMap();if(id==='atr'&&selectedId)renderAtr();window.scrollTo({top:0,behavior:'smooth'})}
+function simulateScan(){toast('QR scanned: '+$('poleId').value)}
+function geo(cb){if(navigator.geolocation){navigator.geolocation.getCurrentPosition(p=>cb(+p.coords.latitude,+p.coords.longitude,'Live'),()=>cb(28.6819,77.0346,'Demo'),{enableHighAccuracy:true,timeout:8000,maximumAge:0})}else cb(28.6819,77.0346,'Demo')}
+function captureComplaintLocation(){geo((a,b,label)=>{complaintLat=a.toFixed(6);complaintLng=b.toFixed(6);$('locText').textContent=`${label} location: ${complaintLat}, ${complaintLng}`;toast('Complaint location captured')})}
+function evidenceChanged(){const f=$('evidence').files?.[0];$('evidenceText').textContent=f?`Attached: ${f.name}`:'No evidence attached.'}
+function submitLead(){const type=$('type').value;if(!type)return toast('Select complaint type');const finish=()=>{const m=mapping(type),id='BRPL/MOB/'+Date.now().toString().slice(-7),f=$('evidence').files?.[0];const lead={id,type,poleId:$('poleId').value,area:$('area').value,dt:$('dt').value,lat:complaintLat,lng:complaintLng,department:m.department,closureGroup:m.closureGroup,status:'Open',evidence:f?f.name:'',note:$('note').value.trim(),createdAt:now(),atrStatus:'Pending',history:[`${now()} - Complaint created from mobile demo`]};const arr=getLeads();arr.unshift(lead);saveLeads(arr);$('type').value='';$('note').value='';$('evidence').value='';$('evidenceText').textContent='No evidence attached.';toast('Complaint submitted: '+id);renderHome();selectedId=id;go('leads')};if(!complaintLat){geo((a,b,label)=>{complaintLat=a.toFixed(6);complaintLng=b.toFixed(6);$('locText').textContent=`${label} location: ${complaintLat}, ${complaintLng}`;finish()})}else finish()}
+function renderHome(){const a=getLeads();$('hOpen').textContent=a.filter(x=>x.status!=='Closed').length;$('hClosed').textContent=a.filter(x=>x.status==='Closed').length}
+function stClass(s){return s==='Closed'?'closed':s==='Open'?'open':'progress'}
+function renderLeads(){const a=getLeads();$('leadList').innerHTML=a.length?a.map(x=>`<div class="lead"><div class="lead-top"><div><b>${x.type}</b><div class="tiny">${x.id}</div></div><span class="pill ${stClass(x.status)}">${x.status}</span></div><div class="meta">${x.area} • ${x.poleId}<br>${x.department} • Closure Group: ${x.closureGroup}</div><div class="lead-actions"><button class="btn primary" onclick="openAtr('${x.id}')">Open ATR</button><button class="btn ghost" onclick="selectMap('${x.id}')">Map</button></div></div>`).join(''):'<div class="muted">No leads yet. Create one from Report.</div>'}
+function openAtr(id){selectedId=id;go('atr')}function selectMap(id){selectedId=id;go('map')}
+function renderAtr(){const x=getLeads().find(v=>v.id===selectedId);if(!x){$('atrEmpty').classList.remove('hidden');$('atrPanel').classList.add('hidden');return}$('atrEmpty').classList.add('hidden');$('atrPanel').classList.remove('hidden');$('atrInfo').innerHTML=`<div><b style="color:var(--navy)">${x.type}</b></div><div class="tiny">${x.id}</div><div class="meta">${x.area} • ${x.poleId}<br>${x.department} • ${x.lat}, ${x.lng}</div><div style="margin-top:8px">${x.evidence?`<span class="evidence-chip">📎 ${x.evidence}</span>`:'<span class="tiny">No evidence</span>'}</div>`;$('atrBy').value=x.atrBy||'';$('siteFinding').value=x.siteFinding||'';$('actionTaken').value=x.actionTaken||'';$('closureGroup').value=x.closureGroup||'';$('atrRemarks').value=x.atrRemarks||'';$('teamGpsText').textContent=x.teamLat?`Team GPS: ${x.teamLat}, ${x.teamLng} • ${x.teamGpsAt}`:'Team GPS not captured.';$('timeline').innerHTML=(x.history||[]).slice().reverse().map(h=>`<li>${h}</li>`).join('')}
+function updateSelected(fn){const a=getLeads(),i=a.findIndex(x=>x.id===selectedId);if(i<0)return null;a[i]=fn(a[i]);saveLeads(a);return a[i]}
+function captureTeamLocation(){if(!selectedId)return;geo((a,b,label)=>{updateSelected(x=>({...x,teamLat:a.toFixed(6),teamLng:b.toFixed(6),teamGpsAt:now(),status:x.status==='Open'?'In Progress':x.status,history:[...(x.history||[]),`${now()} - Team GPS captured (${label})`]}));renderAtr();renderHome();toast('Team live location captured')})}
+function saveAtr(){if(!selectedId)return;updateSelected(x=>({...x,atrBy:$('atrBy').value.trim(),siteFinding:$('siteFinding').value,actionTaken:$('actionTaken').value.trim(),atrRemarks:$('atrRemarks').value.trim(),atrStatus:'Updated',status:x.status==='Open'?'In Progress':x.status,history:[...(x.history||[]),`${now()} - ATR saved`]}));renderAtr();renderLeads();toast('ATR saved')}
+function dist(a,b,c,d){const R=6371000,p=Math.PI/180,A=Math.sin((c-a)*p/2)**2+Math.cos(a*p)*Math.cos(c*p)*Math.sin((d-b)*p/2)**2;return Math.round(2*R*Math.asin(Math.sqrt(A)))}
+function closeLead(){const x=getLeads().find(v=>v.id===selectedId);if(!x)return;const by=$('atrBy').value.trim(),finding=$('siteFinding').value,action=$('actionTaken').value.trim(),remarks=$('atrRemarks').value.trim();if(!by||!finding||!action||!remarks)return toast('Complete ATR fields first');if(!x.teamLat)return toast('Capture Team GPS first');geo((a,b,label)=>{const d=dist(+x.lat,+x.lng,a,b),verified=d<=150;updateSelected(v=>({...v,atrBy:by,siteFinding:finding,actionTaken:action,atrRemarks:remarks,atrStatus:'Closed with ATR',closureLat:a.toFixed(6),closureLng:b.toFixed(6),closureAt:now(),closureDistanceM:d,geoVerified:verified,status:verified?'Closed':'Supervisor Review',history:[...(v.history||[]),`${now()} - Closure GPS captured (${label}), distance ${d} m`,`${now()} - ${verified?'Lead Closed':'Sent for Supervisor Review'}`]}));renderAtr();renderLeads();renderHome();toast(verified?'Lead closed with geo verification':'Location mismatch: Supervisor Review')})}
+function current(){return getLeads().find(x=>x.id===selectedId)}
+function openMapRoute(mode){const x=current();if(!x)return toast('Select a lead');const dest=`${x.lat},${x.lng}`;let u=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dest)}`;if(mode==='car')u=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}&travelmode=driving&dir_action=navigate`;if(mode==='bike')u=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}&travelmode=two-wheeler&dir_action=navigate`;window.open(u,'_blank')}
+function pos(lat,lng){const minLat=28.35,maxLat=28.90,minLng=76.85,maxLng=77.45,a=Math.max(0,Math.min(1,(+lat-minLat)/(maxLat-minLat))),b=Math.max(0,Math.min(1,(+lng-minLng)/(maxLng-minLng)));return{l:7+b*84,t:84-a*67}}
+function renderMap(){const box=$('mapBox');box.querySelectorAll('.pin').forEach(x=>x.remove());const x=current();if(!x){$('mapDetails').textContent='Select a lead from Assigned Leads.';return}const p=pos(x.lat,x.lng),pin=document.createElement('div');pin.className='pin';pin.style.left=p.l+'%';pin.style.top=p.t+'%';box.appendChild(pin);if(x.teamLat){const t=pos(x.teamLat,x.teamLng),z=document.createElement('div');z.className='pin team';z.style.left=t.l+'%';z.style.top=t.t+'%';box.appendChild(z)}if(x.closureLat){const c=pos(x.closureLat,x.closureLng),z=document.createElement('div');z.className='pin close';z.style.left=c.l+'%';z.style.top=c.t+'%';box.appendChild(z)}$('mapDetails').innerHTML=`<b>${x.type}</b><br>Complaint: ${x.lat}, ${x.lng}${x.teamLat?`<br>Team: ${x.teamLat}, ${x.teamLng}`:''}${x.closureLat?`<br>Closure: ${x.closureLat}, ${x.closureLng} • ${x.closureDistanceM} m`:''}`}
+renderHome();renderLeads();if('serviceWorker' in navigator){navigator.serviceWorker.register('service-worker.js').catch(()=>{})}
+</script>
+</body></html>
