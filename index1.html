@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#082a58">
+<title>BSES PoleSafe – Consumer Report</title>
+<style>
+:root{--navy:#082a58;--blue:#0b5bd3;--red:#e31937;--green:#20a464;--ink:#172033;--muted:#6b7280;--line:#dbe4ef}
+*{box-sizing:border-box}html,body{margin:0;background:#dfe9f5;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink)}
+button,input,textarea,select{font:inherit}
+.phone{width:min(430px,100vw);min-height:100vh;margin:auto;background:#f5f8fc;box-shadow:0 0 40px #0002;position:relative}
+.appbar{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 14px 12px;display:flex;align-items:center;gap:10px}
+.logo{font-size:24px;font-weight:950}.demo{font-size:10px;background:#fff;color:var(--red);padding:4px 7px;border-radius:999px;font-weight:900}
+.content{padding:14px 14px 94px}
+.hero{background:linear-gradient(135deg,var(--navy),#0b5bd3);color:#fff;padding:18px;border-radius:18px;margin-bottom:12px}
+.hero h2{margin:0 0 6px;font-size:23px}.hero p{margin:0;opacity:.9;font-size:13px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:0 7px 18px rgba(33,60,95,.06);margin-bottom:10px}
+.section-title{font-size:12px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.action{border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px;text-align:left;width:100%}
+.action b{display:block;color:var(--navy);margin-top:8px;font-size:17px}.action span{font-size:12px;color:var(--muted)}
+.circle{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:900;background:var(--red)}
+.btn{border:0;border-radius:12px;padding:11px 13px;font-weight:850}
+.btn.green{background:var(--green);color:#fff}.btn.ghost{background:#edf3fa;color:var(--navy)}.btn.full{width:100%}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}.field label{font-size:12px;font-weight:850;color:var(--navy)}
+.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff}
+.field textarea{min-height:78px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tiny{font-size:11px;color:var(--muted)}
+.banner{padding:10px;border-radius:12px;background:#eef8ff;border:1px solid #cfe6ff;font-size:12px;line-height:1.45}
+.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(430px,100vw);background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(2,1fr);padding:7px 6px calc(7px + env(safe-area-inset-bottom));z-index:30}
+.nav{border:0;background:transparent;color:var(--muted);padding:7px 2px;font-size:11px}.nav b{display:block;font-size:18px}.nav.active{color:var(--blue);font-weight:850}
+.screen{display:none}.screen.active{display:block}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;max-width:370px;background:#111827;color:#fff;padding:10px 12px;border-radius:11px;font-size:12px;z-index:60;display:none}
+.hidden{display:none!important}
+.success{display:none;background:#ecfdf3;border:1px solid #b7ebcf;border-radius:14px;padding:12px;margin-top:10px;color:#067647}
+
+/* Hard hide anything internal even if old code/css is mixed in */
+#leads,#atr,#map,[data-screen="leads"],[data-screen="atr"],[data-screen="map"]{display:none!important;visibility:hidden!important}
+@media(min-width:431px){body{padding:16px 0}.phone{min-height:900px;border-radius:26px;overflow:hidden}.bottom{bottom:16px;border-radius:0 0 26px 26px}}
+</style>
+</head>
+<body>
+<div class="phone">
+<header class="appbar">
+  <div class="logo">BSES</div>
+  <div><b>PoleSafe</b><br><small>Consumer Reporting</small></div>
+  <span class="demo">PILOT</span>
+</header>
+
+<main class="content">
+<section id="home" class="screen active">
+  <div class="hero">
+    <h2>Scan. Report. Stay Safe.</h2>
+    <p>Report electricity theft, unsafe wiring, sparking, damaged wire or supply-related issues from your mobile.</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Consumer Access</div>
+    <button class="action" onclick="go('report')">
+      <span class="circle">QR</span>
+      <b>Report Complaint</b>
+      <span>Open the complaint form</span>
+    </button>
+  </div>
+
+  <div class="banner">
+    This consumer version shows only <b>Home</b> and <b>Report</b>. Internal options like Leads and ATR are restricted.
+  </div>
+</section>
+
+<section id="report" class="screen">
+  <div class="card">
+    <div class="section-title">1. Pole Identification</div>
+    <div class="field"><label>Pole ID</label><input id="poleId" value="BRPL-MDK-P001245"></div>
+    <div class="row">
+      <div class="field"><label>Area</label><input id="area" value="Kamruddin Nagar, Mundka"></div>
+      <div class="field"><label>DT</label><input id="dt" value="MDK-DT018"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">2. Complaint Type</div>
+    <div class="field">
+      <select id="type">
+        <option value="">Select complaint type</option>
+        <option>Direct Theft</option>
+        <option>Illegal Hooking</option>
+        <option>Meter Tampering</option>
+        <option>Pole Fire / Sparking</option>
+        <option>Exposed or Damaged Wire</option>
+        <option>Unsafe Service Cable</option>
+        <option>Other Hazards</option>
+        <option>Current Complaint / No Supply</option>
+      </select>
+    </div>
+    <div class="row">
+      <button class="btn ghost" onclick="captureComplaintLocation()">📍 Capture Location</button>
+      <label class="btn ghost" style="text-align:center">📷 Photo / Video
+        <input id="evidence" type="file" accept="image/*,video/*" class="hidden" onchange="evidenceChanged()">
+      </label>
+    </div>
+    <div class="tiny" id="locText" style="margin-top:8px">Location not captured.</div>
+    <div class="tiny" id="evidenceText">No evidence attached.</div>
+    <div class="field" style="margin-top:9px">
+      <label>Note</label>
+      <textarea id="note" placeholder="Optional details"></textarea>
+    </div>
+    <button class="btn green full" onclick="submitComplaint()">Submit Complaint</button>
+    <div id="success" class="success"></div>
+  </div>
+</section>
+</main>
+
+<nav class="bottom">
+  <button class="nav active" data-screen="home" onclick="go('home')"><b>⌂</b>Home</button>
+  <button class="nav" data-screen="report" onclick="go('report')"><b>＋</b>Report</button>
+</nav>
+
+<div id="toast" class="toast"></div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let complaintLat='', complaintLng='';
+
+function toast(msg){
+  const t=$('toast');
+  t.textContent=msg;
+  t.style.display='block';
+  setTimeout(()=>t.style.display='none',2200);
+}
+
+function go(id){
+  id = (id === 'report') ? 'report' : 'home';
+  document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===id));
+  document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.screen===id));
+  history.replaceState(null,'','#'+id);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function geo(cb){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      p=>cb(+p.coords.latitude,+p.coords.longitude,'Live'),
+      ()=>cb(28.6819,77.0346,'Demo'),
+      {enableHighAccuracy:true,timeout:8000,maximumAge:0}
+    );
+  } else cb(28.6819,77.0346,'Demo');
+}
+
+function captureComplaintLocation(){
+  geo((a,b,label)=>{
+    complaintLat=a.toFixed(6);
+    complaintLng=b.toFixed(6);
+    $('locText').textContent=`${label} location: ${complaintLat}, ${complaintLng}`;
+    toast('Location captured');
+  });
+}
+
+function evidenceChanged(){
+  const f=$('evidence').files?.[0];
+  $('evidenceText').textContent=f?`Attached: ${f.name}`:'No evidence attached.';
+}
+
+function submitComplaint(){
+  const type=$('type').value;
+  if(!type) return toast('Select complaint type');
+
+  const finish=()=>{
+    const id='BRPL/QR/'+Date.now().toString().slice(-8);
+    const complaint={
+      id,
+      poleId:$('poleId').value.trim(),
+      area:$('area').value.trim(),
+      dt:$('dt').value.trim(),
+      type,
+      lat:complaintLat,
+      lng:complaintLng,
+      note:$('note').value.trim(),
+      createdAt:new Date().toLocaleString()
+    };
+
+    const arr=JSON.parse(localStorage.getItem('polesafe_consumer_reports')||'[]');
+    arr.unshift(complaint);
+    localStorage.setItem('polesafe_consumer_reports',JSON.stringify(arr));
+
+    $('success').style.display='block';
+    $('success').innerHTML=`✅ Complaint submitted in demo.<br><b>Reference:</b> ${id}`;
+    $('type').value='';
+    $('note').value='';
+    $('evidence').value='';
+    $('evidenceText').textContent='No evidence attached.';
+    toast('Complaint submitted');
+  };
+
+  if(!complaintLat){
+    geo((a,b,label)=>{
+      complaintLat=a.toFixed(6);
+      complaintLng=b.toFixed(6);
+      $('locText').textContent=`${label} location: ${complaintLat}, ${complaintLng}`;
+      finish();
+    });
+  } else finish();
+}
+
+/* Remove internal screens/buttons if old HTML/js gets mixed by mistake */
+['leads','atr','map'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.remove();
+});
+document.querySelectorAll('[data-screen="leads"],[data-screen="atr"],[data-screen="map"]').forEach(el=>el.remove());
+
+window.addEventListener('hashchange',()=>{
+  const target=location.hash.replace('#','');
+  go(target==='report' ? 'report' : 'home');
+});
+
+const first=location.hash.replace('#','');
+go(first==='report' ? 'report' : 'home');
+</script>
+</body>
+</html>
